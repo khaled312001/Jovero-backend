@@ -26,10 +26,10 @@ async function main() {
     const settings = [
         { key: 'companyName', value: 'JOVERO' },
         { key: 'email', value: 'info@jovero.net' },
-        { key: 'phone', value: '+962 7 0000 0000' },
+        { key: 'phone', value: '+201055709709' },
         { key: 'address', value: 'Amman, Jordan' },
         { key: 'license', value: 'JOVERO-2026-HQ' },
-        { key: 'whatsappNumber', value: '+962700000000' },
+        { key: 'whatsappNumber', value: '+201055709709' },
         { key: 'linkedin', value: 'https://linkedin.com/company/jovero' },
         { key: 'instagram', value: 'https://instagram.com/jovero' },
     ];
