@@ -1,7 +1,7 @@
 import prisma from './prisma';
 import * as bcrypt from 'bcryptjs';
 
-export async function seedDatabase() {
+export async function seedTranslations() {
     const logs: string[] = [];
     const log = (msg: string) => {
         const timestamp = new Date().toLocaleTimeString();
@@ -10,46 +10,8 @@ export async function seedDatabase() {
     };
 
     try {
-        log('🌱 Starting comprehensive seed...');
+        log('📝 Starting page sections (translations) seed...');
 
-        // 1. Admin User
-        const adminEmail = 'info@jovero.net';
-        const password = await bcrypt.hash('admin123', 12);
-
-        await prisma.user.upsert({
-            where: { email: adminEmail },
-            update: {},
-            create: {
-                email: adminEmail,
-                password,
-                name: 'JOVERO Admin',
-                role: 'ADMIN',
-            },
-        });
-        log('👤 Admin user verified');
-
-        // 2. Site Settings
-        const settings = [
-            { key: 'companyName', value: 'JOVERO' },
-            { key: 'email', value: 'info@jovero.net' },
-            { key: 'phone', value: '+201055709709' },
-            { key: 'address', value: 'Amman, Jordan' },
-            { key: 'license', value: 'JOVERO-2026-HQ' },
-            { key: 'whatsappNumber', value: '+201055709709' },
-            { key: 'linkedin', value: 'https://linkedin.com/company/jovero' },
-            { key: 'instagram', value: 'https://instagram.com/jovero' },
-        ];
-
-        for (const s of settings) {
-            await prisma.siteSetting.upsert({
-                where: { key: s.key },
-                update: { value: s.value },
-                create: s,
-            });
-        }
-        log('⚙️ Site settings seeded');
-
-        // 3. Page Sections
         const pageSections = [
             {
                 page: 'home',
@@ -146,6 +108,65 @@ export async function seedDatabase() {
                 });
             }
         }
+        log('✅ Page sections (translations) seeded successfully');
+        return { success: true, logs };
+    } catch (error: any) {
+        log(`❌ Page sections seeding failed: ${error.message}`);
+        return { success: false, logs };
+    }
+}
+
+export async function seedDatabase() {
+    const logs: string[] = [];
+    const log = (msg: string) => {
+        const timestamp = new Date().toLocaleTimeString();
+        console.log(`[${timestamp}] ${msg}`);
+        logs.push(`[${timestamp}] ${msg}`);
+    };
+
+    try {
+        log('🌱 Starting comprehensive seed...');
+
+        // 1. Admin User
+        const adminEmail = 'info@jovero.net';
+        const password = await bcrypt.hash('admin123', 12);
+
+        await prisma.user.upsert({
+            where: { email: adminEmail },
+            update: {},
+            create: {
+                email: adminEmail,
+                password,
+                name: 'JOVERO Admin',
+                role: 'ADMIN',
+            },
+        });
+        log('👤 Admin user verified');
+
+        // 2. Site Settings
+        const settings = [
+            { key: 'companyName', value: 'JOVERO' },
+            { key: 'email', value: 'info@jovero.net' },
+            { key: 'phone', value: '+201055709709' },
+            { key: 'address', value: 'Amman, Jordan' },
+            { key: 'license', value: 'JOVERO-2026-HQ' },
+            { key: 'whatsappNumber', value: '+201055709709' },
+            { key: 'linkedin', value: 'https://linkedin.com/company/jovero' },
+            { key: 'instagram', value: 'https://instagram.com/jovero' },
+        ];
+
+        for (const s of settings) {
+            await prisma.siteSetting.upsert({
+                where: { key: s.key },
+                update: { value: s.value },
+                create: s,
+            });
+        }
+        log('⚙️ Site settings seeded');
+
+        // 3. Page Sections
+        const translationsResult = await seedTranslations();
+        logs.push(...translationsResult.logs);
         log('🏠 Page sections seeded');
 
         // 4. Service Categories & Services
