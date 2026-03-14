@@ -654,6 +654,58 @@ router.get('/partners', async (_req: Request, res: Response) => {
     }
 });
 
+// ============ INVOICES CRUD ============
+
+router.get('/invoices', async (_req: Request, res: Response) => {
+    try {
+        const invoices = await prisma.invoice.findMany({ orderBy: { createdAt: 'desc' } });
+        res.json(invoices);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch invoices' });
+    }
+});
+
+router.post('/invoices', async (req: Request, res: Response) => {
+    try {
+        const invoice = await prisma.invoice.create({
+            data: {
+                ...req.body,
+                date: req.body.date ? new Date(req.body.date) : new Date(),
+            },
+        });
+        res.json(invoice);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to create invoice' });
+    }
+});
+
+router.put('/invoices/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const invoice = await prisma.invoice.update({
+            where: { id },
+            data: {
+                ...req.body,
+                date: req.body.date ? new Date(req.body.date) : undefined,
+            },
+        });
+        res.json(invoice);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update invoice' });
+    }
+});
+
+router.delete('/invoices/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        await prisma.invoice.delete({ where: { id } });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete invoice' });
+    }
+});
+
 router.post('/partners', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
         const partner = await prisma.partner.create({ data: req.body });

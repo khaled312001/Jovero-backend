@@ -360,6 +360,25 @@ router.get('/partners', async (_req: Request, res: Response) => {
     }
 });
 
+// GET /api/invoices/:number
+router.get('/invoices/:number', async (req: Request, res: Response) => {
+    try {
+        const { number } = req.params;
+        const invoice = await prisma.invoice.findUnique({
+            where: { invoiceNumber: number },
+        });
+
+        if (!invoice) {
+            return res.status(404).json({ error: 'Invoice not found' });
+        }
+
+        res.json(invoice);
+    } catch (error) {
+        console.error('Invoice API error:', error);
+        res.status(500).json({ error: 'Failed to fetch invoice' });
+    }
+});
+
 router.get('/pages/:page', getPageSections);
 
 export default router;

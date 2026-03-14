@@ -287,3 +287,14 @@ model PageSection {
 
   @@unique([page, section])
 }
+
+model Invoice {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  invoiceNumber String   @unique
+  clientName    String?
+  amount        Float?
+  date          DateTime @default(now())
+  pdfUrl        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
