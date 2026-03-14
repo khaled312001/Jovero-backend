@@ -55,22 +55,22 @@ export async function seedDatabase() {
                 page: 'home',
                 section: 'hero',
                 content: JSON.stringify({
-                    badgeText: "Leading Healthcare Marketing Agency",
-                    titleLine1: "JOVERO:",
-                    titleLine2: "Digital Growth for Medical Professionals",
-                    description: "We architect enterprise-grade marketing and software solutions tailored for the medical field. From patient acquisition systems to high-performance healthcare platforms, we turn your practice into a digital leader.",
-                    primaryBtnText: "Start Your Growth",
-                    secondaryBtnText: "View Our Portfolio"
+                    badgeText: "وكالة تسويق رقمي رائدة",
+                    titleLine1: "جوفيرو:",
+                    titleLine2: "ابتكار لنموّك الرقمي",
+                    description: "نصمم ونبني أنظمة تسويق وحلول برمجية مؤسسية مخصصة للقطاع الطبي. من أنظمة استقطاب المرضى إلى منصات الرعاية الصحية عالية الأداء، نحول عيادتك أو مركزك لرواد في المجال الرقمي.",
+                    primaryBtnText: "ابدأ نموك الآن",
+                    secondaryBtnText: "استكشف أعمالنا"
                 })
             },
             {
                 page: 'home',
                 section: 'features',
                 content: JSON.stringify({
-                    badge: "Core Values",
-                    title: "Built on Precision & Strategic Excellence",
-                    description: "We combine engineering discipline with global rapid innovation to deliver digital solutions that redefine industry standards in healthcare marketing and performance.",
-                    btnText: "Our Strategic Approach"
+                    badge: "قيمنا الأساسية",
+                    title: "مبني على التميز الاستراتيجي والدقة",
+                    description: "نجمع بين الانضباط الهندسي والابتكار السريع العالمي لتقديم حلول رقمية تعيد صياغة معايير التسويق والأداء في قطاع الرعاية الصحية.",
+                    btnText: "منهجنا الاستراتيجي"
                 })
             },
             {
@@ -78,10 +78,10 @@ export async function seedDatabase() {
                 section: 'stats',
                 content: JSON.stringify({
                     stats: [
-                        { label: "Successful Campaigns", value: "200", suffix: "+" },
-                        { label: "Medical Partners", value: "120", suffix: "+" },
-                        { label: "Years of Experience", value: "6", suffix: "+" },
-                        { label: "Patient Growth", value: "100", suffix: "%" },
+                        { label: "حملة ناجحة", value: "200", suffix: "+" },
+                        { label: "شريك طبي", value: "120", suffix: "+" },
+                        { label: "سنوات من الخبرة", value: "6", suffix: "+" },
+                        { label: "نمو في عدد المرضى", value: "100", suffix: "%" },
                     ]
                 })
             },
@@ -89,9 +89,9 @@ export async function seedDatabase() {
                 page: 'home',
                 section: 'cta',
                 content: JSON.stringify({
-                    badge: "Initiation",
-                    title: "Accelerate Your Practice",
-                    description: "Our team of marketing experts is ready to architect your digital future. Let's turn your vision into a strategic marketing asset that drives patient engagement and growth."
+                    badge: "البداية",
+                    title: "سرّع عجلة نمو عيادتك",
+                    description: "فريقنا من خبراء التسويق جاهز لبناء مستقبلك الرقمي. دعنا نحول رؤيتك إلى أصل تسويقي استراتيجي يدفع عجلة التفاعل والنمو."
                 })
             },
             {
@@ -154,10 +154,10 @@ export async function seedDatabase() {
         log('🗑️ Cleared existing services and categories');
 
         const catData = [
-            { name: 'Marketing', slug: 'marketing', icon: 'TrendingUp' },
-            { name: 'Design', slug: 'design', icon: 'Palette' },
-            { name: 'Development', slug: 'development', icon: 'Code2' },
-            { name: 'Healthcare', slug: 'healthcare', icon: 'Activity' },
+            { name: 'التسويق', nameEn: 'Marketing', slug: 'marketing', icon: 'TrendingUp' },
+            { name: 'التصميم', nameEn: 'Design', slug: 'design', icon: 'Palette' },
+            { name: 'التطوير', nameEn: 'Development', slug: 'development', icon: 'Code2' },
+            { name: 'الرعاية الصحية', nameEn: 'Healthcare', slug: 'healthcare', icon: 'Activity' },
         ];
 
         const categoryMap: Record<string, string> = {};
@@ -172,43 +172,51 @@ export async function seedDatabase() {
 
         const services = [
             {
-                title: 'Medical Marketing & Creative Content',
+                title: 'التسويق الطبي والمحتوى الإبداعي',
+                titleEn: 'Medical Marketing & Creative Content',
                 slug: 'healthcare-marketing-content',
-                description: 'We provide integrated marketing strategies for doctors and medical centers to increase engagement and attract patients.',
+                description: 'نقدم استراتيجيات تسويق متكاملة للأطباء والمراكز الطبية لزيادة التفاعل وجذب المرضى.',
+                descriptionEn: 'We provide integrated marketing strategies for doctors and medical centers to increase engagement and attract patients.',
                 icon: 'TrendingUp',
                 image: '/images/services/healthcare-marketing-content.png',
-                features: JSON.stringify(['Patient Acquisition', 'Healthcare SEO', 'Medical Content Creation', 'Social Media Management', 'Paid Ads Strategy', 'Crisis Management']),
-                categoryName: 'Marketing',
+                features: JSON.stringify(['استقطاب المرضى', 'تحسين محركات البحث الطبي', 'إنشاء المحتوى الطبي', 'إدارة منصات التواصل', 'استراتيجية الإعلانات الممولة', 'إدارة الأزمات']),
+                categoryName: 'التسويق',
                 order: 1
             },
             {
-                title: 'Performance Analytics & Healthcare SEO',
+                title: 'تحليل الأداء وتحسين محركات البحث SEO',
+                titleEn: 'Performance Analytics & Healthcare SEO',
                 slug: 'performance-analytics-seo',
-                description: 'We ensure your website appears at the top of medical search results to increase trust and credibility.',
+                description: 'نضمن ظهور موقعك في مقدمة نتائج البحث الطبي لزيادة الثقة والمصداقية.',
+                descriptionEn: 'We ensure your website appears at the top of medical search results to increase trust and credibility.',
                 icon: 'Search',
                 image: '/images/services/performance-analytics-seo.png',
-                features: JSON.stringify(['Keyword Research', 'On-Page SEO', 'Backlink Strategy', 'Conversion Tracking', 'Data Analysis', 'Competitor Insights']),
-                categoryName: 'Marketing',
+                features: JSON.stringify(['بحث الكلمات المفتاحية', 'السيو الداخلي', 'استراتيجية الروابط الخلفية', 'تتبع التحويلات', 'تحليل البيانات', 'رؤى المنافسين']),
+                categoryName: 'التسويق',
                 order: 2
             },
             {
-                title: 'Medical Branding & Web Design',
+                title: 'تصميم الهوية البصرية والمواقع الطبية',
+                titleEn: 'Medical Branding & Web Design',
                 slug: 'medical-branding-web-design',
-                description: 'We design visual identities that reflect professionalism and user-friendly medical websites.',
+                description: 'نصمم هويات بصرية تعكس الاحترافية ومواقع إلكترونية طبية سهلة الاستخدام.',
+                descriptionEn: 'We design visual identities that reflect professionalism and user-friendly medical websites.',
                 icon: 'Palette',
                 image: '/images/services/medical-branding-web-design.png',
-                features: JSON.stringify(['Logo & Identity', 'UX for Healthcare', 'Responsive Web Design', 'Medical Icons', 'Print Materials', 'Design Systems']),
-                categoryName: 'Design',
+                features: JSON.stringify(['الشعار والهوية المؤسسية', 'تجربة المستخدم للمرضى', 'تصميم متجاوب', 'أيقونات طبية', 'المواد المطبوعة', 'أنظمة التصميم']),
+                categoryName: 'التصميم',
                 order: 3
             },
             {
-                title: 'Digital Healthcare Systems Development',
+                title: 'تطوير أنظمة الرعاية الصحية الرقمية',
+                titleEn: 'Digital Healthcare Systems Development',
                 slug: 'healthcare-systems-development',
-                description: 'We build advanced digital platforms for appointment management and interactive medical records.',
+                description: 'نبني منصات رقمية متقدمة لإدارة المواعيد والسجلات الطبية التفاعلية.',
+                descriptionEn: 'We build advanced digital platforms for appointment management and interactive medical records.',
                 icon: 'Activity',
                 image: '/images/services/healthcare-systems-development.png',
-                features: JSON.stringify(['Booking Systems', 'Patient Portals', 'Telehealth Solutions', 'EMR Integration', 'Security & Compliance', 'Mobile Medical Apps']),
-                categoryName: 'Healthcare',
+                features: JSON.stringify(['أنظمة الحجز', 'بوابات المرضى', 'حلول الرعاية عن بُعد', 'تكامل السجلات الطبية', 'الأمان والامتثال', 'تطبيقات طبية']),
+                categoryName: 'الرعاية الصحية',
                 order: 4
             }
         ];
@@ -224,16 +232,16 @@ export async function seedDatabase() {
         // 5. Testimonials
         const testimonials = [
             {
-                name: 'Dr. Ahmad Mansour',
-                role: 'Founder, Modern Health Clinics',
-                content: 'JOVERO transformed our digital presence. Their specialized focus on medical marketing helped us achieve a 40% growth in patient appointments within 6 months.',
+                name: 'د. أحمد منصور',
+                role: 'مؤسس، عيادات الصحة الحديثة',
+                content: 'جوفيرو حولت حضورنا الرقمي بشكل جذري. تركيزهم المتخصص على التسويق الطبي ساعدنا في تحقيق نمو بنسبة 40% في حجوزات المرضى خلال 6 أشهر فقط.',
                 rating: 5,
                 order: 1
             },
             {
-                name: 'Layla Kareem',
-                role: 'Marketing Director, Amman Specialty Center',
-                content: 'The team at JOVERO understands the nuances of healthcare. Their content strategy is both professional and highly engaging for patients.',
+                name: 'ليلى كريم',
+                role: 'مديرة التسويق، مركز عمان التخصصي',
+                content: 'فريق جوفيرو يفهم بدقة تفاصيل قطاع الرعاية الصحية. استراتيجية المحتوى الخاصة بهم احترافية للغاية وجذابة للمرضى.',
                 rating: 5,
                 order: 2
             }
@@ -254,29 +262,35 @@ export async function seedDatabase() {
 
         const projects = [
             {
-                title: 'HealthQuest Patient Portal',
+                title: 'بوابة HealthQuest للمرضى',
+                titleEn: 'HealthQuest Patient Portal',
                 slug: 'healthquest-portal',
-                category: 'Healthcare Systems',
-                description: 'A comprehensive patient engagement portal for a multi-specialty medical group.',
+                category: 'أنظمة الرعاية الصحية',
+                categoryEn: 'Healthcare Systems',
+                description: 'بوابة تفاعلية شاملة لمجموعة طبية متعددة التخصصات.',
+                descriptionEn: 'A comprehensive patient engagement portal for a multi-specialty medical group.',
                 technologies: JSON.stringify(['React', 'Node.js', 'PostgreSQL', 'Socket.io']),
                 isFeatured: true,
                 order: 1,
-                content: 'Full clinic management solution...',
-                client: 'Modern Health Clinics',
-                duration: '5 Months',
+                content: 'حل متكامل لإدارة العيادات...',
+                client: 'عيادات الصحة الحديثة',
+                duration: '5 أشهر',
                 image: '/images/portfolio/healthquest-portal.png'
             },
             {
-                title: 'Dental Care SEO Growth',
+                title: 'نمو عيادات الأسنان عبر SEO',
+                titleEn: 'Dental Care SEO Growth',
                 slug: 'dental-care-seo',
-                category: 'Marketing',
-                description: 'Focused SEO and content campaign for a chain of dental clinics in the region.',
-                technologies: JSON.stringify(['SEO', 'Google Ads', 'Content Strategy', 'Analytics']),
+                category: 'التسويق',
+                categoryEn: 'Marketing',
+                description: 'حملة تحسين محركات البحث والمحتوى لسلسلة عيادات أسنان في المنطقة.',
+                descriptionEn: 'Focused SEO and content campaign for a chain of dental clinics in the region.',
+                technologies: JSON.stringify(['SEO', 'Google Ads', 'استراتيجية المحتوى', 'تحليل البيانات']),
                 isFeatured: true,
                 order: 2,
-                content: 'SEO optimization for dental clinics...',
-                client: 'Smile Center Group',
-                duration: '1 Year',
+                content: 'تحسين محركات البحث لعيادات الأسنان...',
+                client: 'مجموعة مراكز الابتسامة',
+                duration: 'سنة واحدة',
                 image: '/images/portfolio/dental-care-seo.png'
             }
         ];
@@ -288,8 +302,8 @@ export async function seedDatabase() {
 
         // 7. Team Members
         const teamMembers = [
-            { name: 'Zaid Al-Bitar', role: 'CEO & Marketing Architect', bio: 'Strategic leader specializing in healthcare digital transformation.', order: 1 },
-            { name: 'Sarah Ali', role: 'Head of Creative Content', bio: 'Expert in medical storytelling and patient engagement strategies.', order: 2 },
+            { name: 'زيد البيطار', role: 'الرئيس التنفيذي ومهندس التسويق', bio: 'قائد استراتيجي متخصص في التحول الرقمي للرعاية الصحية.', order: 1 },
+            { name: 'سارة علي', role: 'رئيسة المحتوى الإبداعي', bio: 'خبيرة في السرد القصصي الطبي واستراتيجيات تفاعل المرضى.', order: 2 },
         ];
 
         for (const m of teamMembers) {
@@ -300,8 +314,8 @@ export async function seedDatabase() {
 
         // 8. FAQs
         const faqs = [
-            { question: 'Why choose JOVERO for medical marketing?', answer: 'We specialize specifically in healthcare, ensuring all strategies are ethical, compliant, and highly effective for patient growth.', order: 1 },
-            { question: 'Do you offer custom healthcare software?', answer: 'Yes, we build everything from booking systems to full patient management portals.', order: 2 },
+            { question: 'لماذا أختار جوفيرو للتسويق الطبي؟', answer: 'نحن متخصصون حصرياً في الرعاية الصحية، مما يضمن أن جميع استراتيجياتنا أخلاقية ومتوافقة وفعالة للغاية في نمو عدد المرضى.', order: 1 },
+            { question: 'هل تقدمون برامج رعاية صحية مخصصة؟', answer: 'نعم، نحن نبني كل شيء بدءاً من أنظمة الحجز وحتى بوابات إدارة المرضى المتكاملة.', order: 2 },
         ];
 
         for (const f of faqs) {
@@ -312,10 +326,10 @@ export async function seedDatabase() {
 
         // 9. Blog Categories
         const blogCats = [
-            { name: 'Medical Marketing', slug: 'medical-marketing' },
-            { name: 'Healthcare ROI', slug: 'healthcare-roi' },
-            { name: 'Patient Engagement', slug: 'patient-engagement' },
-            { name: 'Tech Insights', slug: 'tech-insights' },
+            { name: 'التسويق الطبي', slug: 'medical-marketing' },
+            { name: 'العائد على الاستثمار في الرعاية الصحية', slug: 'healthcare-roi' },
+            { name: 'تفاعل المرضى', slug: 'patient-engagement' },
+            { name: 'رؤى تقنية', slug: 'tech-insights' },
         ];
 
         const blogCatMap: Record<string, string> = {};
@@ -384,13 +398,13 @@ export async function seedDatabase() {
 
         // 11. SEO Meta
         const seoPages = [
-            { page: 'home', title: 'JOVERO | Healthcare Marketing & Tech Agency', description: 'JOVERO specializes in medical marketing and healthcare digital transformation. Grow your practice today.' },
-            { page: 'about', title: 'About JOVERO | Our Vision for Healthcare Marketing', description: 'Learn about JOVERO, the leading agency for medical professionals.' },
-            { page: 'services', title: 'Our Services | Medical Marketing, SEO & Healthcare Tech', description: 'Specialized healthcare marketing, SEO, and custom software development services.' },
-            { page: 'portfolio', title: 'Portfolio | Medical Growth Success Stories', description: 'View our track record of helping doctors and medical centers grow.' },
-            { page: 'blog', title: 'JOVERO Insights | Healthcare Marketing Tips', description: 'Latest trends in medical marketing and patient acquisition.' },
-            { page: 'contact', title: 'Contact Us | Start Your Growth Journey', description: 'Get in touch with our healthcare marketing experts today.' },
-            { page: 'repair', title: 'System Repair & Initialization', description: 'Emergency database and system repair utility.' },
+            { page: 'home', title: 'جوفيرو | وكالة التسويق والتقنية الطبية', description: 'تتخصص جوفيرو في التسويق الطبي والتحول الرقمي للرعاية الصحية. نمِّ عيادتك اليوم.' },
+            { page: 'about', title: 'نبذة عن جوفيرو | رؤيتنا للتسويق الموجه للرعاية الصحية', description: 'تعرف على جوفيرو، الوكالة الرائدة للمهنيين الطبيين.' },
+            { page: 'services', title: 'خدماتنا | التسويق الطبي و SEO والتقنية الصحية', description: 'خدمات تسويق متخصص للرعاية الصحية، وتحسين محركات البحث، وتطوير برمجيات مخصصة.' },
+            { page: 'portfolio', title: 'أعمالنا | قصص نجاح النمو الطبي', description: 'اطلع على سجلنا الحافل في مساعدة الأطباء والمراكز الطبية على النمو.' },
+            { page: 'blog', title: 'رؤى جوفيرو | نصائح التسويق الطبي', description: 'أحدث التوجهات في التسويق الطبي واستقطاب المرضى.' },
+            { page: 'contact', title: 'اتصل بنا | ابدأ رحلة نموك', description: 'تواصل مع خبراء التسويق الموجه للرعاية الصحية اليوم.' },
+            { page: 'repair', title: 'إصلاح النظام والتهيئة', description: 'أداة طوارئ لإصلاح قواعد البيانات والنظام.' },
         ];
 
         for (const s of seoPages) {
