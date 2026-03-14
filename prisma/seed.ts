@@ -94,11 +94,11 @@ async function main() {
             page: 'about',
             section: 'values',
             content: JSON.stringify([
-                { title: 'Excellence', desc: 'We deliver nothing short of the highest quality in every single campaign and unit of code.', color: 'cyan' },
+                { title: 'Excellence', desc: 'We deliver nothing short of the highest quality in every single campaign and unit of code.', color: 'purple' },
                 { title: 'Innovation', desc: 'Continuously pushing boundaries with futuristic technical and marketing solutions.', color: 'purple' },
-                { title: 'Integrity', desc: 'Transparent, honest, and ethical in every partnership we build.', color: 'cyan' },
+                { title: 'Integrity', desc: 'Transparent, honest, and ethical in every partnership we build.', color: 'purple' },
                 { title: 'Collaboration', desc: 'Working closely with clients as true architects of their success.', color: 'purple' },
-                { title: 'Reliability', desc: 'Delivering on our promises with absolute precision, every time.', color: 'cyan' },
+                { title: 'Reliability', desc: 'Delivering on our promises with absolute precision, every time.', color: 'purple' },
                 { title: 'Impact', desc: 'Creating digital solutions that make a tangible difference in growth.', color: 'purple' },
             ])
         },
