@@ -89,6 +89,16 @@ async function main() {
                 description: "Our team of marketing experts is ready to architect your digital future. Let's turn your vision into a strategic marketing asset that drives patient engagement and growth."
             })
         },
+        {
+            page: 'home',
+            section: 'tech',
+            content: JSON.stringify({
+                badge: "Growth Ecosystem",
+                titleLine1: "Marketing",
+                titleHighlight: "Excellence",
+                subtitle: "We architect high-impact marketing strategies using the world's most sophisticated digital growth frameworks."
+            })
+        },
         // --- ABOUT ---
         {
             page: 'about',
