@@ -344,6 +344,22 @@ router.get('/seo/:page', async (req: Request, res: Response) => {
 
 // ============ PAGES ============
 
+// ============ PARTNERS ============
+
+// GET /api/partners
+router.get('/partners', async (_req: Request, res: Response) => {
+    try {
+        const partners = await prisma.partner.findMany({
+            where: { isActive: true },
+            orderBy: { order: 'asc' },
+        });
+        res.json(partners);
+    } catch (error) {
+        console.error('Partners API error:', error);
+        res.status(500).json({ error: 'Failed to fetch partners' });
+    }
+});
+
 router.get('/pages/:page', getPageSections);
 
 export default router;

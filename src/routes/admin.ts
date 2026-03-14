@@ -643,6 +643,47 @@ router.delete('/media/:id', roleGuard('ADMIN'), async (req: Request, res: Respon
     }
 });
 
+// ============ PARTNERS CRUD ============
+
+router.get('/partners', async (_req: Request, res: Response) => {
+    try {
+        const partners = await prisma.partner.findMany({ orderBy: { order: 'asc' } });
+        res.json(partners);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch partners' });
+    }
+});
+
+router.post('/partners', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
+    try {
+        const partner = await prisma.partner.create({ data: req.body });
+        res.status(201).json(partner);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to create partner' });
+    }
+});
+
+router.put('/partners/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
+    try {
+        const partner = await prisma.partner.update({
+            where: { id: req.params.id },
+            data: req.body,
+        });
+        res.json(partner);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update partner' });
+    }
+});
+
+router.delete('/partners/:id', roleGuard('ADMIN'), async (req: Request, res: Response) => {
+    try {
+        await prisma.partner.delete({ where: { id: req.params.id } });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete partner' });
+    }
+});
+
 // ============ PAGES ============
 
 router.get('/pages/:page', getPageSections);
