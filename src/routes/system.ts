@@ -74,7 +74,7 @@ router.post('/repair', roleGuard('ADMIN'), async (_req, res) => {
         log('Starting repair operation...');
 
         // 1. Verify Admin User
-        const adminEmail = 'admin@barmagly.ch';
+        const adminEmail = 'admin@jovero.com';
         const adminExists = await prisma.user.findUnique({ where: { email: adminEmail } });
 
         if (!adminExists) {
@@ -96,8 +96,8 @@ router.post('/repair', roleGuard('ADMIN'), async (_req, res) => {
         // 2. Verify Essential Site Settings
         log('Verifying site settings...');
         const essentialSettings = [
-            { key: 'companyName', value: 'Barmagly' },
-            { key: 'email', value: 'info@barmagly.ch' }
+            { key: 'companyName', value: 'JOVERO' },
+            { key: 'email', value: 'info@jovero.com' }
         ];
 
         for (const s of essentialSettings) {

@@ -87,11 +87,11 @@ app.get('/api/health', (_req, res) => {
 
 // Root check
 app.get('/api', (_req, res) => {
-    res.json({ message: 'Barmagly Backend API is running', version: '1.0.0' });
+    res.json({ message: 'JOVERO Backend API is running', version: '1.0.0' });
 });
 
 app.get('/', (_req, res) => {
-    res.json({ message: 'Barmagly Backend is running', version: '1.0.0' });
+    res.json({ message: 'JOVERO Backend is running', version: '1.0.0' });
 });
 
 // ============ ERROR HANDLING ============
@@ -121,7 +121,7 @@ async function initialize() {
 
     // Auto-seed admin user
     try {
-        const adminEmail = 'admin@barmagly.tech';
+        const adminEmail = 'admin@jovero.com';
         const exists = await prisma.user.findUnique({ where: { email: adminEmail } });
         if (!exists) {
             const hashedPassword = await bcrypt.hash('admin123', 12);
@@ -142,8 +142,8 @@ async function initialize() {
     // Seed essential settings
     try {
         const essentialSettings = [
-            { key: 'companyName', value: 'Barmagly' },
-            { key: 'email', value: 'info@barmagly.tech' }
+            { key: 'companyName', value: 'JOVERO' },
+            { key: 'email', value: 'info@jovero.com' }
         ];
 
         for (const s of essentialSettings) {
