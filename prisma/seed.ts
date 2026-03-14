@@ -412,7 +412,7 @@ async function main() {
     const seoPages = [
         {
             page: 'home',
-            title: 'JOVERO | وكالة التسويق الطبي والتقني برؤية سويسرية',
+            title: 'JOVERO | وكالة التسويق الطبي والتقني الرائدة',
             titleEn: 'JOVERO | Healthcare Marketing & Tech Agency',
             description: 'تتخصص JOVERO في التسويق الطبي والتحول الرقمي للرعاية الصحية. بادر بنمو عيادتك اليوم.',
             descriptionEn: 'JOVERO specializes in medical marketing and healthcare digital transformation. Grow your practice today.'
