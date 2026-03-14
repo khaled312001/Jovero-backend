@@ -32,12 +32,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
     fileFilter: (_req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) {
+        if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
             cb(null, true);
         } else {
-            cb(new Error('Only images are allowed'));
+            cb(new Error('Only images and PDFs are allowed'));
         }
     },
 });
@@ -95,44 +95,35 @@ router.get('/services', async (_req: Request, res: Response) => {
 
 router.post('/services', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const { title, description, details, icon, features, categoryId, order } = req.body;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, slug: _slug, category, ...rest } = req.body;
         const service = await prisma.service.create({
             data: {
-                title,
-                slug: slugify(title),
-                description,
-                details,
-                icon,
-                features: JSON.stringify(features || []),
-                categoryId,
-                order: order || 0,
+                ...rest,
+                slug: slugify(rest.title),
+                features: rest.features ? JSON.stringify(rest.features) : '[]',
             },
         });
         res.status(201).json(service);
     } catch (error) {
+        console.error('Failed to create service:', error);
         res.status(500).json({ error: 'Failed to create service' });
     }
 });
 
 router.put('/services/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const { title, description, details, icon, features, categoryId, order, isActive } = req.body;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, slug: _slug, category, ...rest } = req.body;
         const service = await prisma.service.update({
             where: { id: req.params.id },
             data: {
-                title,
-                slug: title ? slugify(title) : undefined,
-                description,
-                details,
-                icon,
-                features: features ? JSON.stringify(features) : undefined,
-                categoryId,
-                order,
-                isActive,
+                ...rest,
+                slug: rest.title ? slugify(rest.title) : undefined,
+                features: rest.features ? JSON.stringify(rest.features) : undefined,
             },
         });
         res.json(service);
     } catch (error) {
+        console.error('Failed to update service:', error);
         res.status(500).json({ error: 'Failed to update service' });
     }
 });
@@ -165,41 +156,35 @@ router.get('/portfolio', async (_req: Request, res: Response) => {
 
 router.post('/portfolio', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const { title, description, content, category, client, duration, technologies, results, isFeatured, image } = req.body;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, slug: _slug, images, ...rest } = req.body;
         const project = await prisma.project.create({
             data: {
-                title,
-                slug: slugify(title),
-                description,
-                content,
-                category,
-                client,
-                duration,
-                technologies: JSON.stringify(technologies || []),
-                results,
-                isFeatured,
-                image,
+                ...rest,
+                slug: slugify(rest.title),
+                technologies: rest.technologies ? JSON.stringify(rest.technologies) : '[]',
             },
         });
         res.status(201).json(project);
     } catch (error) {
+        console.error('Failed to create project:', error);
         res.status(500).json({ error: 'Failed to create project' });
     }
 });
 
 router.put('/portfolio/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const { technologies, ...rest } = req.body;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, slug: _slug, images, ...rest } = req.body;
         const project = await prisma.project.update({
             where: { id: req.params.id },
             data: {
                 ...rest,
-                technologies: technologies ? JSON.stringify(technologies) : undefined,
-                slug: req.body.title ? slugify(req.body.title) : undefined
+                slug: rest.title ? slugify(rest.title) : undefined,
+                technologies: rest.technologies ? JSON.stringify(rest.technologies) : undefined,
             },
         });
         res.json(project);
     } catch (error) {
+        console.error('Failed to update project:', error);
         res.status(500).json({ error: 'Failed to update project' });
     }
 });
@@ -295,52 +280,42 @@ router.get('/blog', async (_req: Request, res: Response) => {
 
 router.post('/blog', roleGuard('ADMIN', 'EDITOR'), async (req: AuthRequest, res: Response) => {
     try {
-        const { title, excerpt, content, status, categoryId, tags, metaTitle, metaDesc, keywords, image } = req.body;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, slug: _slug, author, category, tags, ...rest } = req.body;
         const post = await prisma.blogPost.create({
             data: {
-                title,
-                slug: slugify(title),
-                excerpt,
-                content,
-                status: status || 'DRAFT',
-                image,
-                metaTitle,
-                metaDesc,
-                keywords: JSON.stringify(keywords || []),
-                publishedAt: status === 'PUBLISHED' ? new Date() : null,
+                ...rest,
+                slug: slugify(rest.title),
+                keywords: rest.keywords ? JSON.stringify(rest.keywords) : '[]',
+                publishedAt: rest.status === 'PUBLISHED' ? new Date() : null,
                 authorId: req.user!.id,
-                categoryId,
                 tags: tags ? { connect: tags.map((id: string) => ({ id })) } : undefined,
+                categoryId: rest.categoryId || undefined,
             },
         });
         res.status(201).json(post);
     } catch (error) {
+        console.error('Failed to create post:', error);
         res.status(500).json({ error: 'Failed to create post' });
     }
 });
 
 router.put('/blog/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const { title, excerpt, content, status, categoryId, tags, metaTitle, metaDesc, keywords, image } = req.body;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, slug: _slug, author, category, tags, ...rest } = req.body;
         const post = await prisma.blogPost.update({
             where: { id: req.params.id },
             data: {
-                title,
-                slug: title ? slugify(title) : undefined,
-                excerpt,
-                content,
-                status,
-                image,
-                metaTitle,
-                metaDesc,
-                keywords: keywords ? JSON.stringify(keywords) : undefined,
-                publishedAt: status === 'PUBLISHED' ? new Date() : undefined,
-                categoryId,
+                ...rest,
+                slug: rest.title ? slugify(rest.title) : undefined,
+                keywords: rest.keywords ? JSON.stringify(rest.keywords) : undefined,
+                publishedAt: rest.status === 'PUBLISHED' ? new Date() : undefined,
                 tags: tags ? { set: tags.map((id: string) => ({ id })) } : undefined,
+                categoryId: rest.categoryId || undefined,
             },
         });
         res.json(post);
     } catch (error) {
+        console.error('Failed to update post:', error);
         res.status(500).json({ error: 'Failed to update post' });
     }
 });
@@ -367,21 +342,25 @@ router.get('/testimonials', async (_req: Request, res: Response) => {
 
 router.post('/testimonials', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const testimonial = await prisma.testimonial.create({ data: req.body });
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
+        const testimonial = await prisma.testimonial.create({ data });
         res.status(201).json(testimonial);
     } catch (error) {
+        console.error('Failed to create testimonial:', error);
         res.status(500).json({ error: 'Failed to create testimonial' });
     }
 });
 
 router.put('/testimonials/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
         const testimonial = await prisma.testimonial.update({
             where: { id: req.params.id },
-            data: req.body,
+            data,
         });
         res.json(testimonial);
     } catch (error) {
+        console.error('Failed to update testimonial:', error);
         res.status(500).json({ error: 'Failed to update testimonial' });
     }
 });
@@ -408,21 +387,25 @@ router.get('/team', async (_req: Request, res: Response) => {
 
 router.post('/team', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const member = await prisma.teamMember.create({ data: req.body });
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
+        const member = await prisma.teamMember.create({ data });
         res.status(201).json(member);
     } catch (error) {
+        console.error('Failed to create team member:', error);
         res.status(500).json({ error: 'Failed to create team member' });
     }
 });
 
 router.put('/team/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
         const member = await prisma.teamMember.update({
             where: { id: req.params.id },
-            data: req.body,
+            data,
         });
         res.json(member);
     } catch (error) {
+        console.error('Failed to update team member:', error);
         res.status(500).json({ error: 'Failed to update team member' });
     }
 });
@@ -449,21 +432,25 @@ router.get('/faq', async (_req: Request, res: Response) => {
 
 router.post('/faq', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const faq = await prisma.fAQ.create({ data: req.body });
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
+        const faq = await prisma.fAQ.create({ data });
         res.status(201).json(faq);
     } catch (error) {
+        console.error('Failed to create FAQ:', error);
         res.status(500).json({ error: 'Failed to create FAQ' });
     }
 });
 
 router.put('/faq/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
         const faq = await prisma.fAQ.update({
             where: { id: req.params.id },
-            data: req.body,
+            data,
         });
         res.json(faq);
     } catch (error) {
+        console.error('Failed to update FAQ:', error);
         res.status(500).json({ error: 'Failed to update FAQ' });
     }
 });
@@ -560,12 +547,14 @@ router.get('/seo', async (_req: Request, res: Response) => {
 
 router.put('/seo/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
         const seo = await prisma.seoMeta.update({
             where: { id: req.params.id },
-            data: req.body,
+            data,
         });
         res.json(seo);
     } catch (error) {
+        console.error('Failed to update SEO data:', error);
         res.status(500).json({ error: 'Failed to update SEO data' });
     }
 });
@@ -667,31 +656,33 @@ router.get('/invoices', async (_req: Request, res: Response) => {
 
 router.post('/invoices', async (req: Request, res: Response) => {
     try {
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...rest } = req.body;
         const invoice = await prisma.invoice.create({
             data: {
-                ...req.body,
-                date: req.body.date ? new Date(req.body.date) : new Date(),
+                ...rest,
+                date: rest.date ? new Date(rest.date) : new Date(),
             },
         });
         res.json(invoice);
     } catch (error) {
-        console.error(error);
+        console.error('Failed to create invoice:', error);
         res.status(500).json({ error: 'Failed to create invoice' });
     }
 });
 
 router.put('/invoices/:id', async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...rest } = req.body;
         const invoice = await prisma.invoice.update({
-            where: { id },
+            where: { id: req.params.id },
             data: {
-                ...req.body,
-                date: req.body.date ? new Date(req.body.date) : undefined,
+                ...rest,
+                date: rest.date ? new Date(rest.date) : undefined,
             },
         });
         res.json(invoice);
     } catch (error) {
+        console.error('Failed to update invoice:', error);
         res.status(500).json({ error: 'Failed to update invoice' });
     }
 });
@@ -708,21 +699,25 @@ router.delete('/invoices/:id', async (req: Request, res: Response) => {
 
 router.post('/partners', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const partner = await prisma.partner.create({ data: req.body });
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
+        const partner = await prisma.partner.create({ data });
         res.status(201).json(partner);
     } catch (error) {
+        console.error('Failed to create partner:', error);
         res.status(500).json({ error: 'Failed to create partner' });
     }
 });
 
 router.put('/partners/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
+        const { id: _id, createdAt: _ca, updatedAt: _ua, ...data } = req.body;
         const partner = await prisma.partner.update({
             where: { id: req.params.id },
-            data: req.body,
+            data,
         });
         res.json(partner);
     } catch (error) {
+        console.error('Failed to update partner:', error);
         res.status(500).json({ error: 'Failed to update partner' });
     }
 });
