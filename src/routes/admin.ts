@@ -151,7 +151,7 @@ router.delete('/services/:id', roleGuard('ADMIN'), async (req: Request, res: Res
 router.get('/portfolio', async (_req: Request, res: Response) => {
     try {
         const projects = await prisma.project.findMany({
-            include: { images: true },
+            include: { images: { orderBy: { order: 'asc' } } },
             orderBy: { createdAt: 'desc' },
         });
         res.json(projects.map(p => ({
@@ -165,7 +165,7 @@ router.get('/portfolio', async (_req: Request, res: Response) => {
 
 router.post('/portfolio', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
-        const { title, description, content, category, client, duration, technologies, results, isFeatured } = req.body;
+        const { title, description, content, category, client, duration, technologies, results, isFeatured, image } = req.body;
         const project = await prisma.project.create({
             data: {
                 title,
@@ -178,6 +178,7 @@ router.post('/portfolio', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res
                 technologies: JSON.stringify(technologies || []),
                 results,
                 isFeatured,
+                image,
             },
         });
         res.status(201).json(project);
@@ -188,9 +189,14 @@ router.post('/portfolio', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res
 
 router.put('/portfolio/:id', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
     try {
+        const { technologies, ...rest } = req.body;
         const project = await prisma.project.update({
             where: { id: req.params.id },
-            data: { ...req.body, slug: req.body.title ? slugify(req.body.title) : undefined },
+            data: {
+                ...rest,
+                technologies: technologies ? JSON.stringify(technologies) : undefined,
+                slug: req.body.title ? slugify(req.body.title) : undefined
+            },
         });
         res.json(project);
     } catch (error) {
@@ -204,6 +210,69 @@ router.delete('/portfolio/:id', roleGuard('ADMIN'), async (req: Request, res: Re
         res.json({ success: true });
     } catch (error) {
         res.status(500).json({ error: 'Failed to delete project' });
+    }
+});
+
+// Gallery Management
+router.post('/portfolio/:id/images', roleGuard('ADMIN', 'EDITOR'), upload.array('images', 10), async (req: Request, res: Response) => {
+    try {
+        const files = req.files as Express.Multer.File[];
+        if (!files || files.length === 0) {
+            return res.status(400).json({ error: 'No files uploaded' });
+        }
+
+        const currentCount = await prisma.projectImage.count({ where: { projectId: req.params.id } });
+
+        const images = await Promise.all(
+            files.map((file, index) =>
+                prisma.projectImage.create({
+                    data: {
+                        url: `/uploads/${file.filename}`,
+                        projectId: req.params.id,
+                        order: currentCount + index,
+                    },
+                })
+            )
+        );
+
+        res.status(201).json(images);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to upload project images' });
+    }
+});
+
+router.delete('/portfolio/images/:imageId', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
+    try {
+        const image = await prisma.projectImage.findUnique({ where: { id: req.params.imageId } });
+        if (!image) return res.status(404).json({ error: 'Image not found' });
+
+        // Optional: delete from disk
+        const filePath = path.join(process.cwd(), image.url);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+
+        await prisma.projectImage.delete({ where: { id: req.params.imageId } });
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete project image' });
+    }
+});
+
+router.patch('/portfolio/:id/images/order', roleGuard('ADMIN', 'EDITOR'), async (req: Request, res: Response) => {
+    try {
+        const { orders } = req.body; // Array of { id: string, order: number }
+        await Promise.all(
+            orders.map((item: { id: string; order: number }) =>
+                prisma.projectImage.update({
+                    where: { id: item.id },
+                    data: { order: item.order },
+                })
+            )
+        );
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to reorder images' });
     }
 });
 
