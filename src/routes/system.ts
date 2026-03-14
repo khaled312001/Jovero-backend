@@ -2,9 +2,31 @@ import { Router, Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import { authMiddleware, roleGuard } from '../middleware/auth';
 import * as bcrypt from 'bcryptjs';
-import { seedDatabase } from '../lib/seeding';
+import { seedDatabase, seedTranslations } from '../lib/seeding';
 
 const router = Router();
+
+// ============ PUBLIC: Update Translations ============
+router.get('/update-translations', async (_req, res) => {
+    try {
+        const result = await seedTranslations();
+        res.json({
+            success: result.success,
+            message: result.success
+                ? '✅ Translations updated successfully.'
+                : '⚠️ Translations update failed partially.',
+            logs: result.logs
+        });
+    } catch (error: any) {
+        console.error('Update translations error:', error);
+        res.status(500).json({
+            success: false,
+            message: `Failed: ${error.message}`,
+            logs: [error.message]
+        });
+    }
+});
+
 
 // ============ PUBLIC HEALTH CHECK ============
 router.get('/health', (_req, res) => {
