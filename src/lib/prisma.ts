@@ -7,11 +7,11 @@ const getUrl = () => {
 
     // Fix for Vercel MongoDB integration missing DB name
     if (url.includes('mongodb.net') && url.includes('/?')) {
-        url = url.replace('/?', '/barmagly?');
+        url = url.replace('/?', '/jovero?');
     } else if (url.includes('mongodb.net') && url.endsWith('.net/')) {
-        url = url + 'barmagly';
+        url = url + 'jovero';
     } else if (url.includes('mongodb.net') && url.endsWith('.net')) {
-        url = url + '/barmagly';
+        url = url + '/jovero';
     }
 
     return url;
