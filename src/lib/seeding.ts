@@ -60,35 +60,35 @@ export async function seedTranslations() {
                 page: 'about',
                 section: 'values',
                 content: JSON.stringify([
-                    { title: 'Excellence', desc: 'We deliver nothing short of the highest quality in every single campaign and unit of code.', color: 'cyan' },
-                    { title: 'Innovation', desc: 'Continuously pushing boundaries with futuristic technical and marketing solutions.', color: 'purple' },
-                    { title: 'Integrity', desc: 'Transparent, honest, and ethical in every partnership we build.', color: 'cyan' },
-                    { title: 'Collaboration', desc: 'Working closely with clients as true architects of their success.', color: 'purple' },
-                    { title: 'Reliability', desc: 'Delivering on our promises with absolute precision, every time.', color: 'cyan' },
-                    { title: 'Impact', desc: 'Creating digital solutions that make a tangible difference in growth.', color: 'purple' },
+                    { title: 'التميز', desc: 'نقدم أعلى درجات الجودة في كل حملة وسطر من شيفرة برمجية.', color: 'accent' },
+                    { title: 'الابتكار', desc: 'نتجاوز الحدود ونبتكر حلولاً تقنية وتسويقية لاستشراف المستقبل.', color: 'accent' },
+                    { title: 'النزاهة', desc: 'نتحلى بالشفافية والصدق والأخلاق في كل شراكة نبنيها.', color: 'accent' },
+                    { title: 'التعاون', desc: 'نعمل عن كثب مع عملائنا كمهندسين حقيقيين لنجاحهم.', color: 'accent' },
+                    { title: 'الموثوقية', desc: 'نفي بوعودنا بدقة مطلقة، في كل مرة.', color: 'accent' },
+                    { title: 'التأثير', desc: 'إنشاء حلول رقمية تحدث فرقاً ملموساً في النمو.', color: 'accent' },
                 ])
             },
             {
                 page: 'about',
                 section: 'milestones',
                 content: JSON.stringify([
-                    { year: '2019', title: 'Company Founded', desc: 'JOVERO established with a vision for digital marketing and tech excellence.' },
-                    { year: '2020', title: 'Medical Sector Entry', desc: 'Successfully launched our first comprehensive marketing campaign for a medical group.' },
-                    { year: '2021', title: 'Core Expansion', desc: 'Grew to 20+ specialists across marketing, development and healthcare strategy.' },
-                    { year: '2022', title: 'Global Reach', desc: 'Extended innovation to medical clients across Europe and the Middle East.' },
-                    { year: '2023', title: '150+ Projects', desc: 'Milestone of delivering over 150 successful high-performance growth solutions.' },
-                    { year: '2024', title: 'AI Marketing Hub', desc: 'Launched R&D division for AI integration in healthcare marketing systems.' },
+                    { year: '2019', title: 'تأسيس الشركة', desc: 'تأسست جوفيرو برؤية للتميز في التسويق الرقمي والتقنية الطبية.' },
+                    { year: '2020', title: 'دخول القطاع الطبي', desc: 'إطلاق أول حملة تسويق شاملة لمجموعة طبية كبيرة.' },
+                    { year: '2021', title: 'توسيع الفريق', desc: 'نما الفريق ليضم أكثر من 20 متخصصاً في التسويق والتطوير والاستراتيجية الطبية.' },
+                    { year: '2022', title: 'حضور عالمي', desc: 'توسعنا لخدمة عملاء طبيين في أوروبا والشرق الأوسط.' },
+                    { year: '2023', title: 'أكثر من 150 مشروع', desc: 'إنجاز ناجح وتسليم أكثر من 150 حلاً رقمياً عالي الأداء.' },
+                    { year: '2024', title: 'مركز ذكاء اصطناعي للتسويق', desc: 'إطلاق قسم البحث والتطوير لدمج الذكاء الاصطناعي في أنظمة التسويق الطبي.' },
                 ])
             },
             {
                 page: 'about',
                 section: 'tech_arsenal',
                 content: JSON.stringify([
-                    { name: 'Marketing Automation', level: 98 },
-                    { name: 'SEO & Search Ads', level: 95 },
-                    { name: 'Content Strategy', level: 96 },
-                    { name: 'Healthcare Compliance', level: 94 },
-                    { name: 'Performance Analytics', level: 90 },
+                    { name: 'أتمتة التسويق', level: 98 },
+                    { name: 'SEO وإعلانات البحث', level: 95 },
+                    { name: 'استراتيجية المحتوى', level: 96 },
+                    { name: 'الامتثال الصحي', level: 94 },
+                    { name: 'تحليلات الأداء', level: 90 },
                 ])
             }
         ];
