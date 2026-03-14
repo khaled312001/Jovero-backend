@@ -7,7 +7,7 @@ async function main() {
     console.log('🌱 Starting JOVERO comprehensive seed...');
 
     // 1. Admin User
-    const adminEmail = 'admin@jovero.com';
+    const adminEmail = 'info@jovero.net';
     const password = await bcrypt.hash('admin123', 10);
 
     const adminUser = await prisma.user.upsert({
@@ -25,7 +25,7 @@ async function main() {
     // 2. Site Settings
     const settings = [
         { key: 'companyName', value: 'JOVERO' },
-        { key: 'email', value: 'info@jovero.com' },
+        { key: 'email', value: 'info@jovero.net' },
         { key: 'phone', value: '+962 7 0000 0000' },
         { key: 'address', value: 'Amman, Jordan' },
         { key: 'license', value: 'JOVERO-2026-HQ' },
@@ -347,7 +347,7 @@ async function main() {
     console.log('🔍 SEO meta seeded');
 
     console.log('\n🎉 Seed completed successfully!');
-    console.log('📧 Admin login: admin@jovero.com / admin123');
+    console.log('📧 Admin login: info@jovero.net / admin123');
 }
 
 main()
