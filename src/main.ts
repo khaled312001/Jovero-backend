@@ -39,15 +39,20 @@ app.use(cors({
         // Allow requests with no origin (like mobile apps or curl)
         if (!origin) return callback(null, true);
 
-        const isAllowed = allowedOrigins.some(ao => origin === ao || origin.startsWith(ao));
-        const isVercel = origin.endsWith('.vercel.app');
-        const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1');
-        const isTech = origin.endsWith('.jovero.com') || origin === 'https://jovero.com' || origin === 'https://www.jovero.com';
+        // Normalize origin and allowed origins by removing trailing slashes
+        const normalizedOrigin = origin.replace(/\/$/, '');
+        const normalizedAllowedOrigins = allowedOrigins.map(ao => ao.replace(/\/$/, ''));
+
+        const isAllowed = normalizedAllowedOrigins.some(ao => normalizedOrigin === ao || normalizedOrigin.startsWith(ao));
+        const isVercel = normalizedOrigin.endsWith('.vercel.app');
+        const isLocal = normalizedOrigin.includes('localhost') || normalizedOrigin.includes('127.0.0.1');
+        const isTech = normalizedOrigin.endsWith('.jovero.net') || normalizedOrigin === 'https://jovero.net' ||
+            normalizedOrigin.endsWith('.jovero.com') || normalizedOrigin === 'https://jovero.com';
 
         if (isAllowed || isVercel || isLocal || isTech) {
             callback(null, true);
         } else {
-            console.log(`Blocked by CORS: ${origin}`);
+            console.log(`[CORS] Blocked origin: ${origin} (Normalized: ${normalizedOrigin})`);
             callback(new Error('Not allowed by CORS'));
         }
     },
