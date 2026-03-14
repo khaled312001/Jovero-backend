@@ -53,7 +53,7 @@ async function main() {
                 badgeText: "Leading Healthcare Marketing Agency",
                 badgeTextAr: "وكالة رائدة في التسويق الطبي",
                 titleLine1: "JOVERO:",
-                titleLine1Ar: "جوفيرو:",
+                titleLine1Ar: "جوفيرو",
                 titleLine2: "Digital Growth for Medical Professionals",
                 titleLine2Ar: "النمو الرقمي للمهنيين الطبيين",
                 description: "We architect enterprise-grade marketing and software solutions tailored for the medical field. From patient acquisition systems to high-performance healthcare platforms, we turn your practice into a digital leader.",

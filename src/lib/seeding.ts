@@ -18,7 +18,7 @@ export async function seedTranslations() {
                 section: 'hero',
                 content: JSON.stringify({
                     badgeText: "وكالة تسويق رقمي رائدة",
-                    titleLine1: "جوفيرو:",
+                    titleLine1: "جوفيرو",
                     titleLine2: "ابتكار لنموّك الرقمي",
                     description: "نصمم ونبني أنظمة تسويق وحلول برمجية مؤسسية مخصصة للقطاع الطبي. من أنظمة استقطاب المرضى إلى منصات الرعاية الصحية عالية الأداء، نحول عيادتك أو مركزك لرواد في المجال الرقمي.",
                     primaryBtnText: "ابدأ نموك الآن",
