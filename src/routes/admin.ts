@@ -20,15 +20,17 @@ if (!process.env.VERCEL && !fs.existsSync(uploadDir)) {
 }
 
 // Multer config
-const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (_req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    },
-});
+const storage = process.env.VERCEL
+    ? multer.memoryStorage()
+    : multer.diskStorage({
+        destination: (_req, _file, cb) => {
+            cb(null, uploadDir);
+        },
+        filename: (_req, file, cb) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+            cb(null, uniqueSuffix + path.extname(file.originalname));
+        },
+    });
 
 const upload = multer({
     storage,
@@ -209,19 +211,24 @@ router.post('/portfolio/:id/images', roleGuard('ADMIN', 'EDITOR'), upload.array(
         const currentCount = await prisma.projectImage.count({ where: { projectId: req.params.id } });
 
         const images = await Promise.all(
-            files.map((file, index) =>
-                prisma.projectImage.create({
+            files.map((file, index) => {
+                const url = process.env.VERCEL
+                    ? `data:${file.mimetype};base64,${file.buffer.toString('base64')}`
+                    : `/uploads/${file.filename}`;
+
+                return prisma.projectImage.create({
                     data: {
-                        url: `/uploads/${file.filename}`,
+                        url,
                         projectId: req.params.id,
                         order: currentCount + index,
                     },
-                })
-            )
+                });
+            })
         );
 
         res.status(201).json(images);
     } catch (error) {
+        console.error('Portfolio upload error:', error);
         res.status(500).json({ error: 'Failed to upload project images' });
     }
 });
@@ -595,7 +602,9 @@ router.post('/media', roleGuard('ADMIN', 'EDITOR'), upload.single('file'), async
         }
 
         const { filename, size, mimetype } = req.file;
-        const url = `/uploads/${filename}`;
+        const url = process.env.VERCEL
+            ? `data:${mimetype};base64,${req.file.buffer.toString('base64')}`
+            : `/uploads/${filename}`;
 
         const media = await prisma.media.create({
             data: {
