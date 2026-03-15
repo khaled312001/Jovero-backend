@@ -212,9 +212,10 @@ router.post('/portfolio/:id/images', roleGuard('ADMIN', 'EDITOR'), upload.array(
 
         const images = await Promise.all(
             files.map((file, index) => {
+                const filename = file.filename || file.originalname;
                 const url = process.env.VERCEL
                     ? `data:${file.mimetype};base64,${file.buffer.toString('base64')}`
-                    : `/uploads/${file.filename}`;
+                    : `/uploads/${filename}`;
 
                 return prisma.projectImage.create({
                     data: {
@@ -601,7 +602,8 @@ router.post('/media', roleGuard('ADMIN', 'EDITOR'), upload.single('file'), async
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
-        const { filename, size, mimetype } = req.file;
+        const filename = req.file.filename || req.file.originalname;
+        const { size, mimetype } = req.file;
         const url = process.env.VERCEL
             ? `data:${mimetype};base64,${req.file.buffer.toString('base64')}`
             : `/uploads/${filename}`;
